@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: jobpost820-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: new_employee_db
+    ports:
+      - "5500:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - jobpost820-network
+
+  backend:
+    build: ./backend
+    container_name: jobpost820-backend
+    ports:
+      - "3100:3100"
+    depends_on:
+      - postgres
+    networks:
+      - jobpost820-network
+    env_file:
+      - ./backend/Server.env
+
+  job_posts:
+    build: ./Job_Posts
+    container_name: jobpost820-post-ui
+    ports:
+      - "8200:80"
+    depends_on:
+      - backend
+    networks:
+      - jobpost820-network
+
+  job_form:
+    build: ./Job_form
+    container_name: jobpost820-form-ui
+    ports:
+      - "8201:80"
+    depends_on:
+      - backend
+    networks:
+      - jobpost820-network
+
+volumes:
+  pgdata:
+
+networks:
+  jobpost820-network:
+
