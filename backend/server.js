@@ -19,9 +19,9 @@ const pool = new Pool({
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL,
-    "http://16.171.138.172:8200",
+    "http://16.171.145.31:8200",
     "http://127.0.0.1:5500",
-    "http://16.171.138.172:8201",
+    "http://16.171.145.31:8201",
    
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -148,5 +148,5 @@ app.get('/', (req, res) => {
 
 // Start server
 app.listen(port, () => {
-  console.log(`Server running on http://16.171.138.172:${port}`);
+  console.log(`Server running on http://16.171.145.31:${port}`);
 });
